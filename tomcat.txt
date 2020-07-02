@@ -1,0 +1,22 @@
+---
+- name: tomcat installation on managed nodes
+  hosts: all
+  tasks:
+   - name: install tomcat
+     apt:
+      name: tomcat8
+      state: present
+   - name: copy .xml file
+     copy:
+      src: tomcat-users.xml
+      dest: /etc/tomcat8
+   - name: change port to 9090
+     replace:
+       regexp: 8080
+       replace: 9090
+       path: /etc/tomcat8/server.xml
+   - name: restart tomcat8
+     service:
+       name: tomcat8
+       state: restarted 
+...		
